@@ -16,25 +16,30 @@
               D13/SCK/D5       |   D5               | SCL
               D1/MOSI/D7       |   D7               | SDA
 */
-#define TFT_DC    D1
-#define TFT_RST   D0 
+#define TFT_DC    8
+#define TFT_RST   9 
 //#define TFT_CS    10 // only for displays with CS pin
-#define TFT_MOSI  D7   // for hardware SPI data pin (all of available pins)
-#define TFT_SCLK  D5   // for hardware SPI sclk pin (all of available pins)
+
+// OPTION 1 (recommended) is to use the HARDWARE SPI pins, which are unique
+// to each board and not reassignable. For Arduino Uno: MOSI = pin 11 and
+// SCLK = pin 13. This is the fastest mode of operation.
+
+#define TFT_MOSI  11   // for hardware SPI data pin (all of available pins)
+#define TFT_SCLK  13   // for hardware SPI sclk pin (all of available pins)
 
 //You can use different type of hardware initialization
 //using hardware SPI (11, 13 on UNO; 51, 52 on MEGA; ICSP-4, ICSP-3 on DUE and etc)
-Arduino_ST7789 tft = Arduino_ST7789(TFT_DC, TFT_RST); //for display without CS pin
+// Arduino_ST7789 tft = Arduino_ST7789(TFT_DC, TFT_RST); //for display without CS pin
 //Arduino_ST7789 tft = Arduino_ST7789(TFT_DC, TFT_RST, TFT_CS); //for display with CS pin
 //or you can use software SPI on all available pins (slow)
-//Arduino_ST7789 tft = Arduino_ST7789(TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK); //for display without CS pin
+Arduino_ST7789 tft = Arduino_ST7789(TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK); //for display without CS pin
 //Arduino_ST7789 tft = Arduino_ST7789(TFT_DC, TFT_RST, TFT_MOSI, TFT_SCLK, TFT_CS); //for display with CS pin
 
 float p = 3.1415926;
 
 void setup(void) {
   Serial.begin(9600);
-  Serial.print("Hello! ST7789 TFT Test");
+  Serial.println("Hello! ST7789 TFT Test");
 
   tft.init(240, 240);   // initialize a ST7789 chip, 240x240 pixels
 
